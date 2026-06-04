@@ -1,0 +1,36 @@
+# ── ASR Pipeline Requirements ──────────────────────────────────────────────
+# Install with:  pip install -r requirements.txt
+#
+# GPU recommended:
+#   ≥8 GB  VRAM for WhisperX large-v3
+#   ≥16 GB VRAM for Qwen2.5-Omni-7B full precision
+#   ≥10 GB VRAM for Qwen2.5-Omni-7B with --omni_4bit (4-bit quantisation)
+#
+# CPU-only:  set --device cpu --whisperx_compute_type int8
+
+# ── Core ───────────────────────────────────────────────────────────────────
+jiwer>=3.0.3               # WER / CER metrics
+soundfile>=0.12.1          # audio duration probing (fast, libsndfile-based)
+librosa>=0.10.1            # audio resampling for Omni backend
+
+# ── WhisperX ───────────────────────────────────────────────────────────────
+# Install directly from GitHub (PyPI package may lag behind):
+#   pip install git+https://github.com/m-bain/whisperX.git
+# Also pulls in: faster-whisper, ctranslate2, torch, torchaudio
+whisperx>=3.1.1
+
+# ── Qwen2.5-Omni (Omni backend) ────────────────────────────────────────────
+# Omni-specific classes land in transformers ≥4.51; standard Qwen2Audio in ≥4.45.
+# The pipeline gracefully falls back to Qwen2-Audio-7B-Instruct if the Omni
+# checkpoint is unavailable (same transformers requirement applies).
+transformers>=4.51.0,<5.0
+accelerate>=0.30.0         # device_map="auto" multi-GPU / CPU offload
+
+# ── Optional: 4-bit quantisation for Omni (--omni_4bit) ───────────────────
+# bitsandbytes>=0.43.0
+
+# ── Optional: faster HuggingFace downloads ─────────────────────────────────
+# huggingface_hub[hf_transfer]
+
+# ── Testing ────────────────────────────────────────────────────────────────
+pytest>=7.0

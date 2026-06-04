@@ -1,0 +1,26 @@
+# Python internals
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Results and Data
+results/
+data/
+
+# OS files
+.DS_Store
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+vibevoice/
+whisperxasr/
+
+whisperx_basic.py
+
+run_asr.sh
