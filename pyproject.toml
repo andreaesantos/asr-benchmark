@@ -1,0 +1,10 @@
+[project]
+name = "asr-benchmark"
+version = "0.1.0"
+dependencies = [
+    "jiwer", # Common for all
+]
+
+[project.optional-dependencies]
+whisperx = ["whisperx", "torch", "torchaudio"]
+vibevoice = ["vibevoice-package-name", "transformers", "accelerate"]
