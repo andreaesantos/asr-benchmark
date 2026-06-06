@@ -1,9 +1,13 @@
 # run_benchmark.py
 import logging
+from pathlib import Path
+
 from backends.whisperx import WhisperXBackend
 from backends.omni import OmniBackend
+from backends.vibevoice import VibeVoiceBackend
 from utils.loaders import load_samples
 from utils.metrics import compute_wer, compute_cer
+from utils.plots import plot_benchmark_results
 
 logging.basicConfig(
     level=logging.INFO,
@@ -23,4 +27,7 @@ def run_benchmark(model, samples):
         except Exception as e:
             log.error(f"Error processing {sample.audio_path}: {e}")
             results.append({"model": model.name, "wer": None, "cer": None, "error": str(e)})
-    return results
+    
+    plot_benchmark_results(results, output_dir=Path("benchmark_results"))
+
+    return results 

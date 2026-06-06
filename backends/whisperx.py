@@ -4,13 +4,15 @@ from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Optional
 
+from backends.base import ASRBackend
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 log = logging.getLogger(__name__)
 
-class WhisperXBackend:
+class WhisperXBackend(ASRBackend):
     """
     WhisperX – faster-whisper under the hood + word-level forced alignment.
     https://github.com/m-bain/whisperX
