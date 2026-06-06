@@ -5,6 +5,8 @@ from pathlib import Path
 from backends.whisperx import WhisperXBackend
 from backends.omni import OmniBackend
 from backends.vibevoice import VibeVoiceBackend
+
+from utils.utils import get_models_per_user
 from utils.loaders import load_samples
 from utils.metrics import compute_wer, compute_cer
 from utils.plots import plot_benchmark_results
@@ -31,3 +33,13 @@ def run_benchmark(model, samples):
     plot_benchmark_results(results, output_dir=Path("benchmark_results"))
 
     return results 
+
+if __name__ == "__main__":
+    # Load samples (paths and references)
+    samples = load_samples(Path())
+    
+    models = get_models_per_user()
+    
+    # Run benchmarks
+    for model in models:
+        run_benchmark(model, samples)
