@@ -36,7 +36,7 @@ def run_benchmark(model, samples):
 
 if __name__ == "__main__":
     # Load samples (paths and references)
-    samples = load_samples(Path())
+    samples = load_samples(path="~/Projects/data/asr-benchmark", transcript_dir="~/Projects/data/asr-benchmark/transcripts")
     
     models = get_models_per_user()
     
