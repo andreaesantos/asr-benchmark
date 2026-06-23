@@ -12,6 +12,13 @@
 jiwer>=3.0.3               # WER / CER metrics
 soundfile>=0.12.1          # audio duration probing (fast, libsndfile-based)
 librosa>=0.10.1            # audio resampling for Omni backend
+mne>=1.0.0
+exca>=0.3.0
+pydantic>=2.10.0
+omegaconf>=2.3.0
+matplotlib>=3.8.0
+pandas>=2.0.0
+pyyaml>=6.0.0
 
 # ── WhisperX ───────────────────────────────────────────────────────────────
 # Install directly from GitHub (PyPI package may lag behind):
@@ -25,6 +32,7 @@ whisperx>=3.1.1
 # checkpoint is unavailable (same transformers requirement applies).
 transformers>=4.51.0,<5.0
 accelerate>=0.30.0         # device_map="auto" multi-GPU / CPU offload
+
 
 # ── Optional: 4-bit quantisation for Omni (--omni_4bit) ───────────────────
 # bitsandbytes>=0.43.0
