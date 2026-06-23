@@ -1,0 +1,10 @@
+# models.yaml
+whisperx:
+  conda_env: whisperx
+  enabled: true
+omni:
+  conda_env: omni_asr
+  enabled: true
+vibevoice:
+  conda_env: vibevoice
+  enabled: false   # dialogue formatting not implemented yet
