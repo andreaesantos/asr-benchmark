@@ -3,7 +3,7 @@ from typing import Optional
 from pathlib import Path
 from dataclasses import dataclass
 import logging
-from utils.utils import normalise
+from utils.text import normalise
 
 logging.basicConfig(
     level=logging.INFO,

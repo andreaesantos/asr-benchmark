@@ -1,12 +1,13 @@
 from pathlib import Path
 
-# Use .expanduser() to resolve the ~ and convert the string to a Path object
-ROOT = Path.home() / "Projects/asr-benchmark"
-# Now these are Path objects, so the / operator will work perfectly
-DATA = ROOT / "data"
-RESULTS = ROOT / "benchmark_results"
+ROOT = Path.home() / "Projects"
+
+DATA = ROOT / "data" / "asr-benchmark"
+
+RESULTS = DATA / "benchmark_results"
 
 # Ensure directories exist
 DATA.mkdir(parents=True, exist_ok=True)
-RESULTS.mkdir(parents=True, exist_ok=True)
+RESULTS.mkdir(parents=True, 
+              exist_ok=True)
 
