@@ -4,7 +4,7 @@ from pathlib import Path
 
 from backends.whisperx import WhisperXBackend
 from backends.omni import OmniBackend
-from backends.vibevoice import VibeVoiceBackend
+# from backends.vibevoice import VibeVoiceBackend
 
 from utils.utils import get_models_per_user
 from utils.loaders import load_samples
@@ -35,11 +35,24 @@ def run_benchmark(model, samples):
     return results 
 
 if __name__ == "__main__":
+    import argparse
     # Load samples (paths and references)
-    samples = load_samples(path="~/Projects/data/asr-benchmark", transcript_dir="~/Projects/data/asr-benchmark/transcripts")
+    # samples = load_samples(path="~/Projects/data/asr-benchmark", transcript_dir="~/Projects/data/asr-benchmark/transcripts")
     
-    models = get_models_per_user()
+    # models = get_models_per_user()
     
-    # Run benchmarks
+    # # Run benchmarks
+    # for model in models:
+    #     run_benchmark(model, samples)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model_filter", type=str, help="Run only this model")
+    args = parser.parse_args()
+
+    samples = load_samples(audio_dir="/Users/andreasantos/Projects/asr-benchmark/data", transcript_dir="/Users/andreasantos/Projects/asr-benchmark/data")
+    all_models = get_models_per_user()
+    
+    # Filter list if argument is provided
+    models = [m for m in all_models if m.name == args.model_filter] if args.model_filter else all_models
+    
     for model in models:
         run_benchmark(model, samples)

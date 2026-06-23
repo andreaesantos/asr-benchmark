@@ -1,11 +1,21 @@
 import json
+from typing import Optional
 from pathlib import Path
 from dataclasses import dataclass
+import logging
+from utils.utils import normalise
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+log = logging.getLogger(__name__)
 
 @dataclass
 class Sample:
     audio_path: str
     reference: str  # Normalized ground truth
+    duration_s: float        # <--- Add this line
 
 def load_and_normalize_transcript(path: Path) -> str:
     """Adapts your specific JSON/TXT formats to a simple string."""

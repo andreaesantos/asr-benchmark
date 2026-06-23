@@ -5,6 +5,11 @@ import exca as xk
 
 from backends.base import ASRBackend
 
+import torch
+import omegaconf
+from omegaconf import ListConfig
+torch.serialization.add_safe_globals([ListConfig])
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -34,14 +39,16 @@ class WhisperXTask(pydantic.BaseModel):
 class WhisperXBackend(ASRBackend):
     def __init__(
         self,
+        name: str = "whisperx",
         model_name:   str = "large-v3",
         device:       str = "cuda",
-        compute_type: str = "float16",
+        compute_type: str = "int8",
         batch_size:   int = 16,
         language:     Optional[str] = None,
         min_speakers: Optional[int] = None,
         max_speakers: Optional[int] = None,
     ):
+        self.name = name
         self.model_name = model_name
         self.device = device
         self.compute_type = compute_type

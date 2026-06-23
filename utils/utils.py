@@ -1,12 +1,13 @@
 import inspect, getpass, logging
 from datetime import datetime
 from pathlib import Path
+import re
 
 from mne import Report as MneReport
 
 from backends.whisperx import WhisperXBackend
 from backends.omni import OmniBackend
-from backends.vibevoice import VibeVoiceBackend
+# from backends.vibevoice import VibeVoiceBackend
 
 from . import paths
 
@@ -66,8 +67,8 @@ def get_models_per_user():
         log.info("User identified as 'andreasantos' (Mac); initializing smallest models.")
         return [
             WhisperXBackend(model_name="tiny", device="cpu"),
-            OmniBackend(model_name="omni-small", device="cpu"),
-            VibeVoiceBackend(model_name="microsoft/VibeVoice-ASR", device="cpu")    
+            # OmniBackend(model_name="omni-small", device="cpu"),
+            # VibeVoiceBackend(model_name="microsoft/VibeVoice-ASR", device="cpu")    
         ]
     elif user == "asantos":
         log.info("User identified as 'asantos' (Alienware); initializing full models.")
@@ -76,3 +77,14 @@ def get_models_per_user():
             OmniBackend(model_name="omni", device="cuda"),
             VibeVoiceBackend(model_name="microsoft/VibeVoice-ASR", device="cuda")    
         ]
+
+def normalise(text: str) -> str:
+    """Lowercase, strip punctuation (keep apostrophes), collapse whitespace."""
+    text = text.lower()
+    text = re.sub(r"[^\w\s']", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def word_tokens(text: str) -> list[str]:
+    return text.split() if text else []
