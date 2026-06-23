@@ -1,21 +1,27 @@
 # run_benchmark.py
+import argparse
+import importlib
 import logging
 from pathlib import Path
 
-from backends.whisperx import WhisperXBackend
-from backends.omni import OmniBackend
-# from backends.vibevoice import VibeVoiceBackend
-
-from utils.utils import get_models_per_user
 from utils.loaders import load_samples
 from utils.metrics import compute_wer, compute_cer
 from utils.plots import plot_benchmark_results
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
+
+BACKEND_REGISTRY = {
+    "whisperx": "backends.whisperx.WhisperXBackend",
+    "omni": "backends.omni.OmniBackend",
+    "vibevoice": "backends.vibevoice.VibeVoiceBackend",
+}
+
+def load_backend(name: str, **kwargs):
+    module_path, cls_name = BACKEND_REGISTRY[name].rsplit(".", 1)
+    module = importlib.import_module(module_path)   # only imports THIS backend's deps
+    cls = getattr(module, cls_name)
+    return cls(**kwargs)
 
 def run_benchmark(model, samples):
     results = []
@@ -35,24 +41,14 @@ def run_benchmark(model, samples):
     return results 
 
 if __name__ == "__main__":
-    import argparse
-    # Load samples (paths and references)
-    # samples = load_samples(path="~/Projects/data/asr-benchmark", transcript_dir="~/Projects/data/asr-benchmark/transcripts")
     
-    # models = get_models_per_user()
-    
-    # # Run benchmarks
-    # for model in models:
-    #     run_benchmark(model, samples)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_filter", type=str, help="Run only this model")
+    parser.add_argument("--model_filter", required=True, choices=BACKEND_REGISTRY.keys(),
+                         help="Which model to run (one per process/env).")
+    parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
-    samples = load_samples(audio_dir="/Users/andreasantos/Projects/asr-benchmark/data", transcript_dir="/Users/andreasantos/Projects/asr-benchmark/data")
-    all_models = get_models_per_user()
-    
-    # Filter list if argument is provided
-    models = [m for m in all_models if m.name == args.model_filter] if args.model_filter else all_models
-    
-    for model in models:
-        run_benchmark(model, samples)
+    samples = load_samples(audio_dir="...", transcript_dir="...")
+
+    model = load_backend(args.model_filter, device=args.device)   # <-- called here
+    run_benchmark(model, samples)
