@@ -21,24 +21,15 @@ from collections import Counter
 import pytest
 
 from asr_pipeline import (
-    # text
-    normalise,
-    word_tokens,
-    # I/O
-    load_samples,
-    # metrics
-    compute_wer,
-    compute_cer,
     # benchmark
     compute_benchmark_summary,
-    # analysis
-    compute_analysis,
-    _agreement_ratio,
-    # data classes
-    Sample,
-    Result,
 )
 
+from utils.text import normalise, word_tokens
+from utils.loaders import load_samples
+from utils.metrics import compute_wer, compute_cer
+from utils.types import Sample, Result
+from utils.analysis import compute_analysis, _agreement_ratio
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
