@@ -1,8 +1,7 @@
-import os, re, time, json, csv, argparse, logging, inspect, importlib
-from collections import Counter, defaultdict
-from dataclasses import dataclass, field, asdict
-from pathlib import Path
-from typing import Optional
+import logging, os
+
+from backends.base import ASRBackend
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -10,7 +9,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-class OmniBackend:
+class OmniBackend(ASRBackend):
     """
     Qwen2-Audio-Omni (Qwen2-Audio-7B-Instruct variant with Omni capabilities).
     Falls back gracefully to the standard Qwen2-Audio-7B-Instruct if the Omni
@@ -30,6 +29,7 @@ class OmniBackend:
 
     def __init__(
         self,
+        name:        str = "omni",
         model_name:   str = DEFAULT_MODEL,
         device:       str = "cuda",
         load_in_4bit: bool = False,
@@ -39,6 +39,8 @@ class OmniBackend:
 
         log.info(f"Loading Omni model ({model_name}) …")
 
+        self.name      = name
+        self.model_name = model_name
         self.processor = self._load_processor(model_name)
         self.model     = self._load_model(model_name, load_in_4bit, torch)
         self.device    = device

@@ -4,7 +4,7 @@ import pydantic
 import exca as xk
 
 from backends.base import ASRBackend
-from utils.utils import format_timestamped_dialogue
+from utils.text import format_timestamped_dialogue
 
 logging.basicConfig(
     level=logging.INFO,
